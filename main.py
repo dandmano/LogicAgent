@@ -1,19 +1,15 @@
 import numpy as np
 import time
 import curses as cs
+from textguistatic import TGStatic as tgs
+from textgui import TGui
 from curses import wrapper
 
 
 def main(stdscr):
-    stdscr.clear()
-    stdscr.addstr(3, 10, "siemacotam")
-    stdscr.addstr(4, 10, "siemacotam", cs.A_CHARTEXT)
-    stdscr.addstr(5, 10, "siemacotam", cs.A_REVERSE)
-    stdscr.addstr(6, 10, "siemacotam", cs.A_INVIS)
-    stdscr.addstr(7, 10, "siemacotam", cs.A_BOLD)
-    stdscr.addstr(8, 10, "siemacotam", cs.A_STANDOUT)
-
+    gui = TGui(stdscr)
     stdscr.refresh()
+    gui.display_menu()
     stdscr.getch()
 
 
