@@ -1,32 +1,41 @@
 import numpy as np
 from game.level import Level
-from game.states import State
+from game.states import *
+
+TER_LINES = 20
+TER_COLS = 55
+
+S_MENU = 10
+S_PLAY = 0
+S_LEVEL_EDITOR = 1
+S_SETTINGS = 2
+S_EXIT = 3
 
 
 class Game:
 
     def __init__(self, gui):
-        self._state = State.MENU  # initial state = menu
+        self._state = S_MENU  # initial state = menu
         self._levels = []
         self._load_levels()
         self._gui = gui
 
-    @property
-    def state(self):
-        return self._state
-
-    @state.setter
-    def state(self, new_state):
-        if new_state is not State:
-            raise TypeError("new_state is not State type")
-        self._state = new_state
-
-    @property
-    def levels(self):
-        return self._levels
-
     def loop(self):
-        pass
+        while self._state !=3:
+            new_state = 10  # Menu
+            match self._state:
+                case 10:  # Menu
+                    state_menu = StateMenu(self._gui)
+                    new_state = state_menu.loop()
+                case 0:  # Play
+                    raise Exception("Play")
+                case 1:  # Level Editor
+                    raise Exception("Level Editor")
+                case 2:  # Settings
+                    raise Exception("Settings")
+                case 3:  # Exit
+                    return
+            self._state = new_state
 
     def _load_levels(self):  # temporary
         level = Level("Level 1", None)

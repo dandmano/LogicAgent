@@ -30,9 +30,6 @@ class TGui:
         self._menu_win = cs.newwin(TER_LINES, TER_COLS, 0, 0)
         self._menu = Menu(self._menu_win, TER_LINES, TER_COLS)
 
-    def display_menu(self):
-        self._menu.draw_menu()
-
     def getkey(self):
         return self.stdscr.getkey()
 

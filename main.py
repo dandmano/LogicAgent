@@ -5,12 +5,9 @@ from curses import wrapper
 
 
 def main(stdscr):
-    # game = Game()
-    # curr_level = game.levels[0]
-    # print(f'{curr_level[0][0]} + dalej + {curr_level[1][1]} + dalej + {curr_level[7][4]}')
     gui = TGui(stdscr)
-    gui.display_menu()
-    stdscr.getch()
+    game = Game(gui)
+    game.loop()
 
 wrapper(main)
 

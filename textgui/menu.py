@@ -1,5 +1,6 @@
 import curses as cs
 from textgui.tguistatics import *
+from curses.textpad import rectangle
 
 
 class Menu:
@@ -22,6 +23,7 @@ class Menu:
         self._print_title()
         self._print_box()
         self._print_elements()
+        self._print_controls()
         self._selected_el = 0
 
     def _print_box(self):
@@ -45,8 +47,21 @@ class Menu:
             j += 2
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
-    def sel_el_changed(self):
-        pass
+    def _print_controls(self):
+        self._win_menu.attron(cs.color_pair(WHITE))
+        rectangle(self._win_menu, TER_LINES-5, 2, TER_LINES-2, 11)
+        self._win_menu.move(TER_LINES - 4, 3)
+        self._win_menu.addstr("ARROWS +")
+        self._win_menu.move(TER_LINES - 3, 3)
+        self._win_menu.addstr("SPACEBAR")
+        self._win_menu.attroff(cs.color_pair(WHITE))
 
-    def draw_menu(self):
+    def sel_el_changed(self, new_sel):
+        self._win_menu.move(elements_y[self._selected_el], center_x(TER_COLS, elements[self._selected_el]))
+        self._win_menu.addstr(elements[self._selected_el], cs.color_pair(YELLOW))
+        self._win_menu.move(elements_y[new_sel], center_x(TER_COLS, elements[new_sel]))
+        self._win_menu.addstr(elements[new_sel], cs.A_REVERSE)
+        self._selected_el = new_sel
+
+    def refresh(self):
         self._win_menu.refresh()
