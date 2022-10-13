@@ -14,6 +14,8 @@ S_EXIT = 3
 
 class Game:
 
+    _difficulty = 1  # 0 - easy 1 - normal 2 - hard
+
     def __init__(self, gui):
         self._state = S_MENU  # initial state = menu
         self._levels = []
@@ -21,12 +23,12 @@ class Game:
         self._gui = gui
 
     def loop(self):
-        while self._state !=3:
+        while self._state != 3:
             new_state = 10  # Menu
             match self._state:
                 case 10:  # Menu
                     state_menu = StateMenu(self._gui)
-                    new_state = state_menu.loop()
+                    new_state = state_menu.loop_menu()
                 case 0:  # Play
                     raise Exception("Play")
                 case 1:  # Level Editor

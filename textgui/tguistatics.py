@@ -27,9 +27,12 @@ RIGHT_ARROW = '→'
 UP_ARROW = '↑'
 DOWN_ARROW = '↓'
 
+menu_elements = ["PLAY", "CREATE LEVEL", "SETTINGS", "EXIT"]
+settings_elements = ["MAIN_COLOR", "DIFFICULTY", "RETURN"]
+main_color_elements = ["CURRENT=", "YELLOW", "PURPLE", "RETURN"]
+difficulty_elements = ["CURRENT=", "EASY", "HARD", "RETURN"]
 
-elements = ["PLAY", "CREATE LEVEL", "SETTINGS", "EXIT"]
-elements_y = [11, 13, 15, 17]
+all_elements = [menu_elements, settings_elements, main_color_elements, difficulty_elements]
 
 title = [
     r"  __________  _______    _   __________    ______",
@@ -41,6 +44,3 @@ title = [
     r"           / /| |/ / __/ __/ /  |/ / / /         ",
     r"          / ___ / /_/ / /___/ /|  / / /          ",
     r"         /_/  |_\____/_____/_/ |_/ /_/           "]
-
-def center_x(cols, word):
-    return (cols - len(word))//2
