@@ -30,7 +30,8 @@ class Game:
                     state_menu = StateMenu(self._gui)
                     new_state = state_menu.loop_menu()
                 case 0:  # Play
-                    raise Exception("Play")
+                    state_play = StatePlay(self._gui, self._difficulty, self._levels[0])
+                    new_state = state_play.loop()
                 case 1:  # Level Editor
                     raise Exception("Level Editor")
                 case 2:  # Settings

@@ -1,5 +1,5 @@
 import curses as cs
-from textgui.menu import Menu
+from textgui.windows import MenuWindow, GameWindow
 from textgui.tguistatics import *
 
 
@@ -17,7 +17,7 @@ class TGui:
 
     @property
     def menu(self):
-        return self._menu
+        return self._menu_gui
 
     @staticmethod
     def __init_colors():
@@ -28,7 +28,16 @@ class TGui:
 
     def _init_menu(self):
         self._menu_win = cs.newwin(TER_LINES, TER_COLS, 0, 0)
-        self._menu = Menu(self._menu_win, TER_LINES, TER_COLS)
+        self._menu_gui = MenuWindow(self._menu_win, TER_LINES, TER_COLS)
+
+    def _init_game_map(self, level):
+        self._game_win = cs.newwin(TER_LINES, TER_COLS, 0, 0)
+        self._level_win = cs.newwin(13, 21, 2, 17)
+        self._game_gui = GameWindow(self._game_win, self._level_win, TER_LINES, TER_COLS, level)
+
+    def new_game(self, level):
+        self._init_game_map(level)
+        return self._game_gui
 
     def getkey(self):
         return self.stdscr.getkey()

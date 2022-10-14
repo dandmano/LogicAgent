@@ -1,9 +1,11 @@
 import curses as cs
+import logging
+
 from textgui.tguistatics import *
 from curses.textpad import rectangle
 
 
-class Menu:
+class MenuWindow:
     default_color = YELLOW
 
     def __init__(self, win_menu, lines, cols):
@@ -58,3 +60,61 @@ class Menu:
 
     def refresh(self):
         self._win_menu.refresh()
+
+
+class GameWindow:
+    default_color = YELLOW
+    level_y = 13
+    level_x = 21
+
+    def __init__(self, win_game, level_win, lines, cols, level):
+        self._win_game = win_game
+        self._level_win = level_win
+        self._lines = lines
+        self._cols = cols
+        self._level = level
+        self._draw()
+
+    def _draw(self):
+        self._print_boxes()
+        self.refresh_game()
+        self._draw_level()
+        self.refresh_level()
+
+    def _print_boxes(self):
+        self._win_game.attron(cs.color_pair(self.default_color))
+        self._win_game.border()
+        rectangle(self._win_game, 1, 16, 14, 37)
+        self._win_game.attroff(cs.color_pair(self.default_color))
+
+    def _draw_level(self):
+        for y in range(12):
+            for x in range(20):
+                self._level_win.move(y, x)
+                match self._level[y][x]:
+                    case 0:
+                        self._level_win.addstr(" ")
+                    case 1:
+                        self._level_win.addstr(WALL, cs.color_pair(WHITE))
+                    case 2:
+                        self._level_win.addstr(WALL, cs.color_pair(GREEN))
+
+    def draw_player(self, tmpx, tmpy, x, y, pos):  # 0 - up 1 - down 2 - left 3 - right
+        self._level_win.move(tmpy, tmpx)
+        self._level_win.addstr(BLANK)
+        self._level_win.move(y, x)
+        match pos:
+            case 0:
+                self._level_win.addstr(P_UP, cs.color_pair(self.default_color))
+            case 1:
+                self._level_win.addstr(P_DOWN, cs.color_pair(self.default_color))
+            case 2:
+                self._level_win.addstr(P_LEFT, cs.color_pair(self.default_color))
+            case 3:
+                self._level_win.addstr(P_RIGHT, cs.color_pair(self.default_color))
+        self.refresh_level()
+
+    def refresh_game(self):
+        self._win_game.refresh()
+    def refresh_level(self):
+        self._level_win.refresh()
