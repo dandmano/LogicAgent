@@ -1,5 +1,5 @@
-TER_LINES = 20
-TER_COLS = 55
+TER_LINES = 22
+TER_COLS = 58
 
 WHITE = 0
 BLACK = 3
@@ -14,27 +14,21 @@ LIME = 155
 CYAN = 52
 LIGHT_BLUE = 28
 
-P_LEFT = '◀'
-P_RIGHT = '▶'
-P_UP = '▲'
-P_DOWN = '▼'
-WALL = '■'
-CROSSWALL = '▧'
+PLAYER = '℗'
+WALL = '█'
 STAR = '✦'
 BLANK = '⠀'
-LEFT_ARROW = '←'
 RIGHT_ARROW = '→'
-UP_ARROW = '↑'
-DOWN_ARROW = '↓'
 
-menu_elements = ["PLAY", "CREATE LEVEL", "SETTINGS", "EXIT"]
-settings_elements = ["MAIN_COLOR", "DIFFICULTY", "RETURN"]
-main_color_elements = ["CURRENT=", "YELLOW", "PURPLE", "RETURN"]
-difficulty_elements = ["CURRENT=", "EASY", "HARD", "RETURN"]
 
-all_elements = [menu_elements, settings_elements, main_color_elements, difficulty_elements]
+menu_elements = ["PLAY", "CREATE LEVEL", "DIFFICULTY", "EXIT"]
+difficulty_elements = ["CURRENT = ", "EASY", "MEDIUM", "HARD", "RETURN"]
 
-title = [
+empty_line = "                                                        "  # 56 x space (58-2)
+
+all_elements = [menu_elements, difficulty_elements]
+
+titlev1 = [
     r"  __________  _______    _   __________    ______",
     r" /_  __/ __ \/  _/   |  / | / / ____/ /   / ____/",
     r"  / / / /_/ // // /| | /  |/ / / __/ /   / __/   ",
@@ -44,3 +38,19 @@ title = [
     r"           / /| |/ / __/ __/ /  |/ / / /         ",
     r"          / ___ / /_/ / /___/ /|  / / /          ",
     r"         /_/  |_\____/_____/_/ |_/ /_/           "]
+
+title = [
+    r" ___       ________  ________  ___  ________           ",
+    r"|\  \     |\   __  \|\   ____\|\  \|\   ____\          ",
+    r"\ \  \    \ \  \|\  \ \  \___|\ \  \ \  \___|          ",
+    r" \ \  \    \ \  \\\  \ \  \  __\ \  \ \  \             ",
+    r"  \ \  \____\ \  \\\  \ \  \|\  \ \  \ \  \____        ",
+    r"   \ \_______\ \_______\ \_______\ \__\ \_______\      ",
+    r"    \|_______|\|_______|\|_______|\|__|\|_______|      ",
+    r" ________  ________  _______   ________   _________    ",
+    r"|\   __  \|\   ____\|\  ___ \ |\   ___  \|\___   ___\  ",
+    r"\ \  \|\  \ \  \___|\ \   __/|\ \  \\ \  \|___ \  \_|  ",
+    r" \ \   __  \ \  \  __\ \  \_|/_\ \  \\ \  \   \ \  \   ",
+    r"  \ \  \ \  \ \  \|\  \ \  \_|\ \ \  \\ \  \   \ \  \  ",
+    r"   \ \__\ \__\ \_______\ \_______\ \__\\ \__\   \ \__\ ",
+    r"    \|__|\|__|\|_______|\|_______|\|__| \|__|    \|__| "]

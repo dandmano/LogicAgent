@@ -1,15 +1,12 @@
-import numpy as np
 from game.level import Level
 from game.states import *
 
-TER_LINES = 20
-TER_COLS = 55
+TER_LINES = 22
+TER_COLS = 58
 
-S_MENU = 10
-S_PLAY = 0
-S_LEVEL_EDITOR = 1
-S_SETTINGS = 2
-S_EXIT = 3
+S_MENU = 0
+S_GAME = 1
+S_DIFFICULTY = 2
 
 
 class Game:
@@ -23,19 +20,17 @@ class Game:
         self._gui = gui
 
     def loop(self):
+        state_menu = StateMenu(self._gui)
         while self._state != 3:
-            new_state = 10  # Menu
+            new_state = 0  # Menu
             match self._state:
-                case 10:  # Menu
-                    state_menu = StateMenu(self._gui)
+                case 0:  # Menu
                     new_state = state_menu.loop_menu()
-                case 0:  # Play
+                case 1:  # Play
                     state_play = StatePlay(self._gui, self._difficulty, self._levels[0])
                     new_state = state_play.loop()
-                case 1:  # Level Editor
-                    raise Exception("Level Editor")
-                case 2:  # Settings
-                    raise Exception("Settings")
+                case 2:  # Difficulty
+                    self._difficulty = state_menu.loop_difficulty(self._difficulty)
                 case 3:  # Exit
                     return
             self._state = new_state

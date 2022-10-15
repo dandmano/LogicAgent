@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class Level:
 
     def __init__(self, name, level):

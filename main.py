@@ -1,8 +1,6 @@
-import curses as cs
 from textgui.tgui import TGui
 from game.game import Game
 from curses import wrapper
-
 
 def main(stdscr):
     gui = TGui(stdscr)

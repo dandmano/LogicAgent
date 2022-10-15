@@ -1,4 +1,3 @@
-
 class StatePlay:
     def __init__(self, gui, difficulty, level):
         if difficulty == 1:
@@ -49,32 +48,15 @@ class StatePlay:
         return 3  # quit
 
 
-
-
-
-
 class StateMenu:
-    _menu_elements = [0, 1, 2, 3]  # 0 - play 1 - create level 2 - settings 3 - quit
-    _settings_elements = [0, 1, 2]  # 0 - main color 1 - difficulty 2 - return
-    _color_elements = [0, 1, 2, 3]  # 0 - current 1 - yellow 2 - purple 3 - return
-    _difficulty_elements = [0, 1, 2, 3]  # 0 - current 1 - easy 2 - hard 3 - return
-
-    MENU = 0
-    SETTINGS = 1
-    MAIN_COLOR = 2
-    DIFFICULTY = 3
-
     def __init__(self, gui):
         self._gui = gui
         self._gui.menu.refresh()
 
     def loop_menu(self):
-        sel = self._universal_loop(self.MENU, self._menu_elements)
-        return sel
-
-    def _universal_loop(self, option, elements):
         selected_el = 0
-        self._gui.menu.sel_el_changed(selected_el, option)
+        self._gui.menu.print_main_menu()
+        self._gui.menu.sel_el_changed_menu(selected_el)
         self._gui.menu.refresh()
         key = None
         while key != "q":
@@ -92,8 +74,37 @@ class StateMenu:
                     return selected_el
                 case _:
                     continue
-            selected_el %= len(elements)
-            self._gui.menu.sel_el_changed(selected_el, option)
+            selected_el %= 4
+            self._gui.menu.sel_el_changed_menu(selected_el)
             self._gui.menu.refresh()
         return 3  # quit
+
+    def loop_difficulty(self, difficulty):
+        selected_el = 0
+        self._gui.menu.print_difficulty_menu()
+        self._gui.menu.sel_el_changed_difficulty(selected_el)
+        self._gui.menu.current_difficulty_change(difficulty)
+        self._gui.menu.refresh()
+        key = None
+        while True:
+            try:
+                key = self._gui.getkey()
+            except:
+                key = None
+                continue
+            match key:
+                case "KEY_UP":
+                    selected_el -= 1
+                case "KEY_DOWN":
+                    selected_el += 1
+                case " ":
+                    if selected_el == 3:
+                        return difficulty
+                    difficulty = selected_el
+                    self._gui.menu.current_difficulty_change(difficulty)
+                case _:
+                    continue
+            selected_el %= 4
+            self._gui.menu.sel_el_changed_difficulty(selected_el)
+            self._gui.menu.refresh()
 
