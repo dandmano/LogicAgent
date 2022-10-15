@@ -82,34 +82,52 @@ class MenuWindow:
 
 
 class GameWindow:
-    default_color = YELLOW
     level_y = 13
     level_x = 21
 
-    def __init__(self, win_game, level_win, lines, cols, level):
-        self._win_game = win_game
+    def __init__(self, game_win, level_win, stats_win, lines, cols, level):
+        self._game_win = game_win
         self._level_win = level_win
+        self._stats_win = stats_win
         self._lines = lines
         self._cols = cols
         self._level = level
         self._draw()
 
-    def _draw(self):
-        self._print_boxes()
-        self.refresh_game()
-        self._draw_level()
-        self.refresh_level()
+    def draw_player(self, tmpx, tmpy, x, y, ch=BLANK):
+        self._level_win.move(tmpy+1, tmpx+1)
+        self._level_win.addstr(ch)
+        self._level_win.move(y+1, x+1)
+        self._level_win.addstr(PLAYER, cs.color_pair(YELLOW))
+        self.refresh()
 
-    def _print_boxes(self):
-        self._win_game.attron(cs.color_pair(self.default_color))
-        self._win_game.border()
-        rectangle(self._win_game, 1, 16, 14, 37)
-        self._win_game.attroff(cs.color_pair(self.default_color))
+    def _draw(self):
+        self._draw_level()
+        self._draw_borders()
+        self._draw_stats()
+        self.refresh()
+
+    def _draw_borders(self):
+        self._game_win.attron(cs.color_pair(YELLOW))
+        self._level_win.attron(cs.color_pair(YELLOW))
+        self._stats_win.attron(cs.color_pair(YELLOW))
+        self._game_win.border()
+        self._level_win.border()
+        self._stats_win.border()
+        self._game_win.attroff(cs.color_pair(YELLOW))
+        self._level_win.attroff(cs.color_pair(YELLOW))
+        self._stats_win.attroff(cs.color_pair(YELLOW))
+
+    def _draw_stats(self):
+        pass
+        # dodac stats
 
     def _draw_level(self):
         for y in range(12):
             for x in range(20):
-                self._level_win.move(y, x)
+                self._level_win.move(y+1, x+1)
+                # 0-empty space, 1-wall, 2-exit, 3-spikes, 99 - start pos
+                # 4-blue power up, 5-blue wall, 6-orange power up, 7-orange wall, 8-magenta power up, 9-magenta wall
                 match self._level[y][x]:
                     case 0:
                         self._level_win.addstr(" ")
@@ -117,23 +135,29 @@ class GameWindow:
                         self._level_win.addstr(WALL, cs.color_pair(WHITE))
                     case 2:
                         self._level_win.addstr(WALL, cs.color_pair(GREEN))
+                    case 3:
+                        self._level_win.addstr(SPIKES, cs.color_pair(RED))
+                    case 4:
+                        self._level_win.addstr(STAR, cs.color_pair(BLUE))
+                    case 5:
+                        self._level_win.addstr(WALL, cs.color_pair(BLUE))
+                    case 6:
+                        self._level_win.addstr(STAR, cs.color_pair(ORANGE))
+                    case 7:
+                        self._level_win.addstr(WALL, cs.color_pair(ORANGE))
+                    case 8:
+                        self._level_win.addstr(STAR, cs.color_pair(MAGENTA))
+                    case 9:
+                        self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
+                    case 99:
+                        self.draw_player(x, y, x, y)
 
-    def draw_player(self, tmpx, tmpy, x, y, pos):  # 0 - up 1 - down 2 - left 3 - right
-        self._level_win.move(tmpy, tmpx)
-        self._level_win.addstr(BLANK)
-        self._level_win.move(y, x)
-        match pos:
-            case 0:
-                self._level_win.addstr(P_UP, cs.color_pair(self.default_color))
-            case 1:
-                self._level_win.addstr(P_DOWN, cs.color_pair(self.default_color))
-            case 2:
-                self._level_win.addstr(P_LEFT, cs.color_pair(self.default_color))
-            case 3:
-                self._level_win.addstr(P_RIGHT, cs.color_pair(self.default_color))
-        self.refresh_level()
+    def timeout(self, ms):
+        self._game_win.timeout(ms)
 
-    def refresh_game(self):
-        self._win_game.refresh()
-    def refresh_level(self):
+    def refresh(self):
+        self._game_win.touchwin()
+        self._game_win.refresh()
         self._level_win.refresh()
+        self._stats_win.refresh()
+

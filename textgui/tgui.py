@@ -19,6 +19,9 @@ class TGui:
     def menu(self):
         return self._menu_gui
 
+    def game(self):
+        return self._game_gui
+
     @staticmethod
     def __init_colors():
         cs.start_color()
@@ -32,8 +35,9 @@ class TGui:
 
     def _init_game_map(self, level):
         self._game_win = cs.newwin(TER_LINES, TER_COLS, 0, 0)
-        self._level_win = cs.newwin(13, 21, 2, 17)
-        self._game_gui = GameWindow(self._game_win, self._level_win, TER_LINES, TER_COLS, level)
+        self._level_win = self._game_win.subwin(14, 22, 1, 18)
+        self._stats_win = self._game_win.subwin(6, 56, 15, 1)
+        self._game_gui = GameWindow(self._game_win, self._level_win, self._stats_win, TER_LINES, TER_COLS, level)
 
     def new_game(self, level):
         self._init_game_map(level)

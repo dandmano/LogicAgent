@@ -17,27 +17,17 @@ LIGHT_BLUE = 28
 PLAYER = '℗'
 WALL = '█'
 STAR = '✦'
+SPIKES = '✹'  # ✹✶
 BLANK = '⠀'
 RIGHT_ARROW = '→'
 
 
-menu_elements = ["PLAY", "CREATE LEVEL", "DIFFICULTY", "EXIT"]
+menu_elements = ["PLAY", "DIFFICULTY", "CREATE LEVEL", "EXIT"]
 difficulty_elements = ["CURRENT = ", "EASY", "MEDIUM", "HARD", "RETURN"]
 
 empty_line = "                                                        "  # 56 x space (58-2)
 
 all_elements = [menu_elements, difficulty_elements]
-
-titlev1 = [
-    r"  __________  _______    _   __________    ______",
-    r" /_  __/ __ \/  _/   |  / | / / ____/ /   / ____/",
-    r"  / / / /_/ // // /| | /  |/ / / __/ /   / __/   ",
-    r" / / / _, _// // ___ |/ /|  / /_/ / /___/ /___   ",
-    r"/_/ /_/ |_/___/_/  |_/_/_|_/\____/_____/_____/   ",
-    r"            /   | / ____/ ____/ | / /_  __/      ",
-    r"           / /| |/ / __/ __/ /  |/ / / /         ",
-    r"          / ___ / /_/ / /___/ /|  / / /          ",
-    r"         /_/  |_\____/_____/_/ |_/ /_/           "]
 
 title = [
     r" ___       ________  ________  ___  ________           ",
