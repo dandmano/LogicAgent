@@ -1,6 +1,3 @@
-import time
-
-
 class StateGame:
     def __init__(self, gui, difficulty, level):
         self._player_y = None
@@ -22,13 +19,13 @@ class StateGame:
         # game_gui.draw_player(tmp_x, tmp_y, player_x, player_y)
         key = None
         while key != "q":
-            try:
-                key = self._gui.getkey()
-            except:
-                key = None
-                continue
-            if self._player_moving:
-                continue
+            self._game_gui.timeout(70)
+            if self._player_moving is False:
+                try:
+                    key = self._gui.getkey()
+                except:
+                    key = None
+                    continue
             match key:
                 case "KEY_UP":
                     self._player_move(self._player_x, self._player_y - 1)

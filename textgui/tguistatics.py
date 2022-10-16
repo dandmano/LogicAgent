@@ -17,7 +17,7 @@ LIGHT_BLUE = 28
 PLAYER = '℗'
 WALL = '█'
 STAR = '✦'
-SPIKES = '✹'  # ✹✶
+SPIKES = '✶'  # ✹✶
 BLANK = '⠀'
 RIGHT_ARROW = '→'
 
