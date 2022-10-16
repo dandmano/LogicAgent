@@ -1,8 +1,6 @@
 import curses as cs
-import logging
 
 from textgui.tguistatics import *
-from curses.textpad import rectangle
 
 
 class MenuWindow:
@@ -82,8 +80,8 @@ class MenuWindow:
 
 
 class GameWindow:
-    level_y = 13
-    level_x = 21
+    level_y = 14
+    level_x = 27
 
     def __init__(self, game_win, level_win, stats_win, lines, cols, level):
         self._game_win = game_win
@@ -94,18 +92,36 @@ class GameWindow:
         self._level = level
         self._draw()
 
-    def draw_player(self, tmpx, tmpy, x, y, ch=BLANK):
+    def draw_player(self, tmpx, tmpy, x, y, mapelement=0):
         self._level_win.move(tmpy+1, tmpx+1)
-        self._level_win.addstr(ch)
+        match mapelement:
+            case 0:
+                self._level_win.addstr(BLANK)
+            case 5:
+                self._level_win.addstr(WALL, cs.color_pair(BLUE))
+            case 7:
+                self._level_win.addstr(WALL, cs.color_pair(ORANGE))
+            case 9:
+                self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
+            case _:
+                raise Exception("draw player map element exception")
         self._level_win.move(y+1, x+1)
         self._level_win.addstr(PLAYER, cs.color_pair(YELLOW))
         self.refresh()
 
     def _draw(self):
+        self._draw_title()
         self._draw_level()
         self._draw_borders()
         self._draw_stats()
         self.refresh()
+
+    def _draw_title(self):
+        self._game_win.attron(cs.color_pair(YELLOW_DIM))
+        for i in range(len(title)):
+            self._game_win.move(i+1, 2)
+            self._game_win.addstr(title[i])
+        self._game_win.attroff(cs.color_pair(YELLOW_DIM))
 
     def _draw_borders(self):
         self._game_win.attron(cs.color_pair(YELLOW))
@@ -123,8 +139,8 @@ class GameWindow:
         # dodac stats
 
     def _draw_level(self):
-        for y in range(12):
-            for x in range(20):
+        for y in range(13):
+            for x in range(26):
                 self._level_win.move(y+1, x+1)
                 # 0-empty space, 1-wall, 2-exit, 3-spikes, 99 - start pos
                 # 4-blue power up, 5-blue wall, 6-orange power up, 7-orange wall, 8-magenta power up, 9-magenta wall
@@ -151,9 +167,6 @@ class GameWindow:
                         self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
                     case 99:
                         self.draw_player(x, y, x, y)
-
-    def timeout(self, ms):
-        self._game_win.timeout(ms)
 
     def refresh(self):
         self._game_win.touchwin()

@@ -35,8 +35,8 @@ class TGui:
 
     def _init_game_map(self, level):
         self._game_win = cs.newwin(TER_LINES, TER_COLS, 0, 0)
-        self._level_win = self._game_win.subwin(14, 22, 1, 18)
-        self._stats_win = self._game_win.subwin(6, 56, 15, 1)
+        self._level_win = self._game_win.subwin(15, 28, 1, 15)
+        self._stats_win = self._game_win.subwin(5, 54, 16, 2)
         self._game_gui = GameWindow(self._game_win, self._level_win, self._stats_win, TER_LINES, TER_COLS, level)
 
     def new_game(self, level):
