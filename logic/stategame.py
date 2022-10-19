@@ -1,4 +1,4 @@
-import time
+import pygame
 
 
 class StateGame:
@@ -17,6 +17,10 @@ class StateGame:
         self._current_direction = None
 
     def loop(self):
+        clock_fps = pygame.time.Clock()
+        game_time = 0
+        fps_ticks = 0
+        self._update_stats(game_time)
         self._player_x, self._player_y = self._find_player_spawn()  # actual player cords
         if self._player_x == -1 or self._player_y == -1:
             raise Exception("Player spawn not found!")
@@ -26,7 +30,7 @@ class StateGame:
             if self._player_moving is False:
                 try:
                     key = self._gui.getkey()
-                except:
+                except Exception:
                     key = None
                     continue
                 match key:
@@ -43,7 +47,13 @@ class StateGame:
                     case _:
                         continue
             self._player_move(self._current_direction)
-            time.sleep(0.065)
+            clock_fps.tick(30)
+            fps_ticks += 1
+            if fps_ticks == 30:
+                fps_ticks = 0
+                game_time += 1
+            self._update_stats(game_time)
+
 
 
     def _player_move(self, direction):
@@ -106,6 +116,9 @@ class StateGame:
                 self._draw_player(x, y)
             case _:
                 raise Exception("Match error player move")
+
+    def _update_stats(self, game_time):
+        self._game_gui.update_stats(game_time, self._bluepu, self._orangepu, self._magentapu, self._lives)
 
     def _set_player_moving_false(self):
         self._player_moving = False

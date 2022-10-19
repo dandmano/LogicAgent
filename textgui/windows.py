@@ -109,11 +109,28 @@ class GameWindow:
         self._level_win.addstr(PLAYER, cs.color_pair(YELLOW))
         self.refresh()
 
+    def update_stats(self, game_time, bluepu, orangepu, magentapu, lives):
+        self._stats_win.attron(cs.color_pair(YELLOW))
+
+        self._stats_win.move(2, 2)
+        self._stats_win.addstr("Lives: ")
+
+        self._stats_win.move(2, 10)
+        self._stats_win.addstr(str(lives))
+
+        self._stats_win.move(2, 18)
+        self._stats_win.addstr("Power ups: ")
+
+        self._stats_win.move(2, 2)
+        self._stats_win.addstr("Time: ")
+
+        self._stats_win.attroff(cs.color_pair(YELLOW))
+
+
     def _draw(self):
         self._draw_title()
         self._draw_level()
         self._draw_borders()
-        self._draw_stats()
         self.refresh()
 
     def _draw_title(self):
@@ -133,10 +150,6 @@ class GameWindow:
         self._game_win.attroff(cs.color_pair(YELLOW))
         self._level_win.attroff(cs.color_pair(YELLOW))
         self._stats_win.attroff(cs.color_pair(YELLOW))
-
-    def _draw_stats(self):
-        pass
-        # dodac stats
 
     def _draw_level(self):
         for y in range(13):

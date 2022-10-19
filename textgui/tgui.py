@@ -1,4 +1,6 @@
 import curses as cs
+import time
+
 from textgui.windows import MenuWindow, GameWindow
 from textgui.tguistatics import *
 
