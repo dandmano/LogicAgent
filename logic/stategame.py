@@ -21,6 +21,7 @@ class StateGame:
         game_time = 0
         fps_ticks = 0
         self._update_stats(game_time)
+        self._game_gui.refresh()
         self._player_x, self._player_y = self._find_player_spawn()  # actual player cords
         if self._player_x == -1 or self._player_y == -1:
             raise Exception("Player spawn not found!")
@@ -47,9 +48,9 @@ class StateGame:
                     case _:
                         continue
             self._player_move(self._current_direction)
-            clock_fps.tick(30)
-            fps_ticks += 1
-            if fps_ticks == 30:
+            fps_ticks += clock_fps.tick(30)
+            # fps_ticks += 1
+            if fps_ticks >= 30:
                 fps_ticks = 0
                 game_time += 1
             self._update_stats(game_time)
@@ -90,6 +91,7 @@ class StateGame:
                 raise Exception("Umarles")
             case 4:
                 self._bluepu = True
+                self._update_level()
                 self._draw_player(x, y)
             case 5:
                 if self._bluepu:
@@ -98,6 +100,7 @@ class StateGame:
                     self._set_player_moving_false()
             case 6:
                 self._orangepu = True
+                self._update_level()
                 self._draw_player(x, y)
             case 7:
                 if self._orangepu:
@@ -106,6 +109,7 @@ class StateGame:
                     self._set_player_moving_false()
             case 8:
                 self._magentapu = True
+                self._update_level()
                 self._draw_player(x, y)
             case 9:
                 if self._magentapu:
@@ -116,6 +120,9 @@ class StateGame:
                 self._draw_player(x, y)
             case _:
                 raise Exception("Match error player move")
+
+    def _update_level(self):
+        self._game_gui.redraw_level(self._bluepu, self._orangepu, self._magentapu)
 
     def _update_stats(self, game_time):
         self._game_gui.update_stats(game_time, self._bluepu, self._orangepu, self._magentapu, self._lives)
@@ -128,7 +135,7 @@ class StateGame:
         self._player_moving = True
         tmp = self._level[self._player_y][self._player_x]
         if self._check_if_player_on_pu_wall(tmp):
-            self._game_gui.draw_player(self._player_x, self._player_y, x, y, tmp)
+            self._game_gui.draw_player(self._player_x, self._player_y, x, y, tmp, self._bluepu, self._orangepu, self._magentapu)
         else:
             self._game_gui.draw_player(self._player_x, self._player_y, x, y)
         self._player_y = y

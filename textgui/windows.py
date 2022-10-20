@@ -92,17 +92,26 @@ class GameWindow:
         self._level = level
         self._draw()
 
-    def draw_player(self, tmpx, tmpy, x, y, mapelement=0):
+    def draw_player(self, tmpx, tmpy, x, y, mapelement=0, bluepu=False, orangepu=False, magentapu=False):
         self._level_win.move(tmpy+1, tmpx+1)
         match mapelement:
             case 0:
                 self._level_win.addstr(BLANK)
             case 5:
-                self._level_win.addstr(WALL, cs.color_pair(BLUE))
+                if bluepu:
+                    self._level_win.addstr(WALL, cs.color_pair(BLUE_DIM))
+                else:
+                    self._level_win.addstr(WALL, cs.color_pair(BLUE))
             case 7:
-                self._level_win.addstr(WALL, cs.color_pair(ORANGE))
+                if orangepu:
+                    self._level_win.addstr(WALL, cs.color_pair(ORANGE_DIM))
+                else:
+                    self._level_win.addstr(WALL, cs.color_pair(ORANGE))
             case 9:
-                self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
+                if magentapu:
+                    self._level_win.addstr(WALL, cs.color_pair(MAGENTA_DIM))
+                else:
+                    self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
             case _:
                 raise Exception("draw player map element exception")
         self._level_win.move(y+1, x+1)
@@ -121,8 +130,27 @@ class GameWindow:
         self._stats_win.move(2, 18)
         self._stats_win.addstr("Power ups: ")
 
-        self._stats_win.move(2, 2)
+        self._stats_win.move(2, 29)
+        if bluepu:
+            self._stats_win.addstr(STAR, cs.color_pair(BLUE))
+        else:
+            self._stats_win.addstr(STAR, cs.color_pair(BLUE_DIM))
+        self._stats_win.move(2, 31)
+        if orangepu:
+            self._stats_win.addstr(STAR, cs.color_pair(ORANGE))
+        else:
+            self._stats_win.addstr(STAR, cs.color_pair(ORANGE_DIM))
+        self._stats_win.move(2, 33)
+        if magentapu:
+            self._stats_win.addstr(STAR, cs.color_pair(MAGENTA))
+        else:
+            self._stats_win.addstr(STAR, cs.color_pair(MAGENTA_DIM))
+
+        self._stats_win.move(2, 42)
         self._stats_win.addstr("Time: ")
+
+        self._stats_win.move(2, 48)
+        self._stats_win.addstr(str(game_time))
 
         self._stats_win.attroff(cs.color_pair(YELLOW))
 
@@ -180,6 +208,23 @@ class GameWindow:
                         self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
                     case 99:
                         self.draw_player(x, y, x, y)
+
+    def redraw_level(self, bluepu, orangepu, magentapu):
+        for y in range(13):
+            for x in range(26):
+                self._level_win.move(y+1, x+1)
+                # 0-empty space, 1-wall, 2-exit, 3-spikes, 99 - start pos
+                # 4-blue power up, 5-blue wall, 6-orange power up, 7-orange wall, 8-magenta power up, 9-magenta wall
+                match self._level[y][x]:
+                    case 5:
+                        if bluepu:
+                            self._level_win.addstr(WALL, cs.color_pair(BLUE_DIM))
+                    case 7:
+                        if orangepu:
+                            self._level_win.addstr(WALL, cs.color_pair(ORANGE_DIM))
+                    case 9:
+                        if magentapu:
+                            self._level_win.addstr(WALL, cs.color_pair(MAGENTA_DIM))
 
     def refresh(self):
         self._game_win.touchwin()
