@@ -122,3 +122,4 @@ class StateMenu:
                     continue
             sel_level %= lnr
             self._gui.menu.sel_level_changed(levels, (sel_level - 1) % lnr, sel_level, (sel_level + 1) % lnr)
+        return sel_level
