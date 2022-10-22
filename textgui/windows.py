@@ -1,4 +1,5 @@
 import curses as cs
+from curses.textpad import rectangle
 
 from textgui.tguistatics import *
 
@@ -26,6 +27,19 @@ class MenuWindow:
         self._print_elements(difficulty_elements)
         self.refresh()
 
+    def print_skin_menu(self):
+        self._selected_el = 1
+        self._win_menu.clear()
+        self._print_statics()
+        self._print_skins()
+        self.refresh()
+
+    def print_level_menu(self):
+        self._win_menu.clear()
+        self._print_statics()
+        self._print_levels()
+        self.refresh()
+
     def sel_el_changed_menu(self, new_sel):
         self._win_menu.move((16+self._selected_el), self.center_x(TER_COLS, menu_elements[self._selected_el])-2)
         self._win_menu.addstr(" ")
@@ -41,12 +55,39 @@ class MenuWindow:
         self._win_menu.addstr(RIGHT_ARROW, cs.color_pair(YELLOW))
         self._selected_el = new_sel
 
+    def sel_skin_changed_skin(self, p, c, n):  # previous, current, next
+        recy = len(title) + 3
+        recx = 22
+        self._win_menu.attron(cs.color_pair(YELLOW))
+        self._win_menu.move(recy+1, recx+1)
+        self._win_menu.addstr(f" {skins[p]} {RIGHT_ARROW} {skins[c]} {LEFT_ARROW} {skins[n] }")
+        self._win_menu.attroff(cs.color_pair(YELLOW))
+        self.refresh()
+
+    def sel_level_changed(self, levels, p, c, n):
+        self._win_menu.attron(cs.color_pair(YELLOW))
+        self._win_menu.move(len(title) + 3, 1)
+        self._win_menu.addstr(empty_line)
+        self._win_menu.move(len(title) + 3, self.center_x(self._cols, levels[p].name))
+        self._win_menu.addstr(levels[p].name, cs.color_pair(YELLOW_DIM))
+        self._win_menu.move(len(title) + 4, 1)
+        self._win_menu.addstr(empty_line)
+        self._win_menu.move(len(title) + 4, self.center_x(self._cols, levels[c].name))
+        self._win_menu.addstr(levels[c].name)
+        self._win_menu.move(len(title) + 5, 1)
+        self._win_menu.addstr(empty_line)
+        self._win_menu.move(len(title) + 5, self.center_x(self._cols, levels[n].name))
+        self._win_menu.addstr(levels[n].name, cs.color_pair(YELLOW_DIM))
+        self._win_menu.attroff(cs.color_pair(YELLOW))
+        self.refresh()
+
     def current_difficulty_change(self, new_dif):
         new_dif += 1
         self._win_menu.move(16, 1)
         self._win_menu.addstr(empty_line)
         self._win_menu.move(16, self.center_x(TER_COLS, difficulty_elements[new_dif]+difficulty_elements[0]))
         self._win_menu.addstr(difficulty_elements[0]+difficulty_elements[new_dif], cs.color_pair(YELLOW))
+        self.refresh()
 
     def _print_statics(self):
         self._print_box()
@@ -71,6 +112,27 @@ class MenuWindow:
             self._win_menu.addstr(elements[i])
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
+    def _print_skins(self):
+        text1 = "SKIN:"
+        text2 = "(PRESS SPACE TO ACCEPT)"
+        self._win_menu.attron(cs.color_pair(YELLOW))
+        self._win_menu.move(len(title) + 2, self.center_x(self._cols, text1))
+        self._win_menu.addstr(text1)
+        rectangle(self._win_menu, len(title)+3, 22, len(title)+5, 34)
+        self._win_menu.move(len(title) + 6, self.center_x(self._cols, text2))
+        self._win_menu.addstr(text2)
+        self._win_menu.attroff(cs.color_pair(YELLOW))
+
+    def _print_levels(self):
+        text1 = "Choose level:"
+        text2 = "(PRESS SPACE TO ACCEPT)"
+        self._win_menu.attron(cs.color_pair(YELLOW))
+        self._win_menu.move(len(title) + 2, self.center_x(self._cols, text1))
+        self._win_menu.addstr(text1)
+        self._win_menu.move(len(title) + 6, self.center_x(self._cols, text2))
+        self._win_menu.addstr(text2)
+        self._win_menu.attroff(cs.color_pair(YELLOW))
+
     @staticmethod
     def center_x(cols, word):
         return (cols - len(word)) // 2
@@ -92,7 +154,7 @@ class GameWindow:
         self._level = level
         self._draw()
 
-    def draw_player(self, tmpx, tmpy, x, y, mapelement=0, bluepu=False, orangepu=False, magentapu=False):
+    def draw_player(self, skin, tmpx, tmpy, x, y, mapelement=0, bluepu=False, orangepu=False, magentapu=False):
         self._level_win.move(tmpy+1, tmpx+1)
         match mapelement:
             case 0:
@@ -115,7 +177,7 @@ class GameWindow:
             case _:
                 raise Exception("draw player map element exception")
         self._level_win.move(y+1, x+1)
-        self._level_win.addstr(PLAYER, cs.color_pair(YELLOW))
+        self._level_win.addstr(skins[skin], cs.color_pair(YELLOW))
         self.refresh()
 
     def update_stats(self, game_time, bluepu, orangepu, magentapu, lives):
@@ -124,7 +186,7 @@ class GameWindow:
         self._stats_win.move(2, 2)
         self._stats_win.addstr("Lives: ")
 
-        self._stats_win.move(2, 10)
+        self._stats_win.move(2, 9)
         self._stats_win.addstr(str(lives))
 
         self._stats_win.move(2, 18)
@@ -150,10 +212,11 @@ class GameWindow:
         self._stats_win.addstr("Time: ")
 
         self._stats_win.move(2, 48)
+        self._stats_win.addstr("   ")
+        self._stats_win.move(2, 48)
         self._stats_win.addstr(str(game_time))
 
         self._stats_win.attroff(cs.color_pair(YELLOW))
-
 
     def _draw(self):
         self._draw_title()
@@ -167,6 +230,40 @@ class GameWindow:
             self._game_win.move(i+1, 2)
             self._game_win.addstr(title[i])
         self._game_win.attroff(cs.color_pair(YELLOW_DIM))
+
+    def endgame(self, type):
+        self._game_win.clear()
+        if type == 1:
+            self._draw_endgame_lost()
+        else:
+            self._draw_endgame_win()
+        self.refresh()
+
+    def _draw_endgame_lost(self):
+        text1 = "YOU LOST"
+        text2 = "(PRESS SPACE TO CONTINUE)"
+        self._game_win.attron(cs.color_pair(RED))
+        for i in range(len(dead_screen)):
+            self._game_win.move(i+1, 2)
+            self._game_win.addstr(dead_screen[i])
+        self._game_win.move(len(dead_screen) + 2, (self._cols - len(text1)) // 2)
+        self._game_win.addstr(text1)
+        self._game_win.move(len(dead_screen) + 4, (self._cols - len(text2)) // 2)
+        self._game_win.addstr(text2)
+        self._game_win.attroff(cs.color_pair(RED))
+
+    def _draw_endgame_win(self):
+        text1 = "YOU WON! :)"
+        text2 = "(PRESS SPACE TO CONTINUE)"
+        self._game_win.attron(cs.color_pair(YELLOW))
+        for i in range(len(title)):
+            self._game_win.move(i+1, 2)
+            self._game_win.addstr(title[i])
+        self._game_win.move(len(title) + 2, (self._cols - len(text1)) // 2)
+        self._game_win.addstr(text1)
+        self._game_win.move(len(title) + 4, (self._cols - len(text2)) // 2)
+        self._game_win.addstr(text2)
+        self._game_win.attroff(cs.color_pair(YELLOW))
 
     def _draw_borders(self):
         self._game_win.attron(cs.color_pair(YELLOW))
@@ -206,8 +303,6 @@ class GameWindow:
                         self._level_win.addstr(STAR, cs.color_pair(MAGENTA))
                     case 9:
                         self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
-                    case 99:
-                        self.draw_player(x, y, x, y)
 
     def redraw_level(self, bluepu, orangepu, magentapu):
         for y in range(13):
