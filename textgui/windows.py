@@ -1,5 +1,6 @@
 import curses as cs
 from curses.textpad import rectangle
+from logic.audio import get_sound_on
 
 from textgui.tguistatics import *
 
@@ -41,17 +42,19 @@ class MenuWindow:
         self.refresh()
 
     def sel_el_changed_menu(self, new_sel):
-        self._win_menu.move((16+self._selected_el), self.center_x(TER_COLS, menu_elements[self._selected_el])-2)
+        self._win_menu.move((16 + self._selected_el), self.center_x(TER_COLS, menu_elements[self._selected_el]) - 2)
         self._win_menu.addstr(" ")
-        self._win_menu.move((16+new_sel), self.center_x(TER_COLS, menu_elements[new_sel])-2)
+        self._win_menu.move((16 + new_sel), self.center_x(TER_COLS, menu_elements[new_sel]) - 2)
         self._win_menu.addstr(RIGHT_ARROW, cs.color_pair(YELLOW))
         self._selected_el = new_sel
+        self._print_sound_helper()
 
     def sel_el_changed_difficulty(self, new_sel):
         new_sel += 1
-        self._win_menu.move((16+self._selected_el), self.center_x(TER_COLS, difficulty_elements[self._selected_el])-2)
+        self._win_menu.move((16 + self._selected_el),
+                            self.center_x(TER_COLS, difficulty_elements[self._selected_el]) - 2)
         self._win_menu.addstr(" ")
-        self._win_menu.move((16+new_sel), self.center_x(TER_COLS, difficulty_elements[new_sel])-2)
+        self._win_menu.move((16 + new_sel), self.center_x(TER_COLS, difficulty_elements[new_sel]) - 2)
         self._win_menu.addstr(RIGHT_ARROW, cs.color_pair(YELLOW))
         self._selected_el = new_sel
 
@@ -59,8 +62,8 @@ class MenuWindow:
         recy = len(title) + 3
         recx = 22
         self._win_menu.attron(cs.color_pair(YELLOW))
-        self._win_menu.move(recy+1, recx+1)
-        self._win_menu.addstr(f" {skins[p]} {RIGHT_ARROW} {skins[c]} {LEFT_ARROW} {skins[n] }")
+        self._win_menu.move(recy + 1, recx + 1)
+        self._win_menu.addstr(f" {skins[p]} {RIGHT_ARROW} {skins[c]} {LEFT_ARROW} {skins[n]}")
         self._win_menu.attroff(cs.color_pair(YELLOW))
         self.refresh()
 
@@ -85,8 +88,8 @@ class MenuWindow:
         new_dif += 1
         self._win_menu.move(16, 1)
         self._win_menu.addstr(empty_line)
-        self._win_menu.move(16, self.center_x(TER_COLS, difficulty_elements[new_dif]+difficulty_elements[0]))
-        self._win_menu.addstr(difficulty_elements[0]+difficulty_elements[new_dif], cs.color_pair(YELLOW))
+        self._win_menu.move(16, self.center_x(TER_COLS, difficulty_elements[new_dif] + difficulty_elements[0]))
+        self._win_menu.addstr(difficulty_elements[0] + difficulty_elements[new_dif], cs.color_pair(YELLOW))
         self.refresh()
 
     def _print_statics(self):
@@ -101,7 +104,7 @@ class MenuWindow:
     def _print_title(self):
         self._win_menu.attron(cs.color_pair(YELLOW))
         for i in range(len(title)):
-            self._win_menu.move(i+1, 2)
+            self._win_menu.move(i + 1, 2)
             self._win_menu.addstr(title[i])
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
@@ -118,7 +121,7 @@ class MenuWindow:
         self._win_menu.attron(cs.color_pair(YELLOW))
         self._win_menu.move(len(title) + 2, self.center_x(self._cols, text1))
         self._win_menu.addstr(text1)
-        rectangle(self._win_menu, len(title)+3, 22, len(title)+5, 34)
+        rectangle(self._win_menu, len(title) + 3, 22, len(title) + 5, 34)
         self._win_menu.move(len(title) + 6, self.center_x(self._cols, text2))
         self._win_menu.addstr(text2)
         self._win_menu.attroff(cs.color_pair(YELLOW))
@@ -132,6 +135,15 @@ class MenuWindow:
         self._win_menu.move(len(title) + 6, self.center_x(self._cols, text2))
         self._win_menu.addstr(text2)
         self._win_menu.attroff(cs.color_pair(YELLOW))
+
+    def _print_sound_helper(self):
+        self._win_menu.move(self._lines - 2, 1)
+        self._win_menu.addstr(empty_line)
+        self._win_menu.move(self._lines - 2, 3)
+        if get_sound_on():
+            self._win_menu.addstr("PRESS 'M' TO MUTE", cs.color_pair(YELLOW))
+        else:
+            self._win_menu.addstr("PRESS 'M' TO UNMUTE", cs.color_pair(YELLOW_DIM))
 
     @staticmethod
     def center_x(cols, word):
@@ -155,7 +167,7 @@ class GameWindow:
         self._draw()
 
     def draw_player(self, skin, tmpx, tmpy, x, y, mapelement=0, bluepu=False, orangepu=False, magentapu=False):
-        self._level_win.move(tmpy+1, tmpx+1)
+        self._level_win.move(tmpy + 1, tmpx + 1)
         match mapelement:
             case 0:
                 self._level_win.addstr(BLANK)
@@ -176,18 +188,15 @@ class GameWindow:
                     self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
             case _:
                 raise Exception("draw player map element exception")
-        self._level_win.move(y+1, x+1)
+        self._level_win.move(y + 1, x + 1)
         self._level_win.addstr(skins[skin], cs.color_pair(YELLOW))
         self.refresh()
 
-    def update_stats(self, game_time, bluepu, orangepu, magentapu, lives):
+    def update_stats(self, game_time, bluepu, orangepu, magentapu, level_name):
         self._stats_win.attron(cs.color_pair(YELLOW))
 
         self._stats_win.move(2, 2)
-        self._stats_win.addstr("Lives: ")
-
-        self._stats_win.move(2, 9)
-        self._stats_win.addstr(str(lives))
+        self._stats_win.addstr(level_name)
 
         self._stats_win.move(2, 18)
         self._stats_win.addstr("Power ups: ")
@@ -227,7 +236,7 @@ class GameWindow:
     def _draw_title(self):
         self._game_win.attron(cs.color_pair(YELLOW_DIM))
         for i in range(len(title)):
-            self._game_win.move(i+1, 2)
+            self._game_win.move(i + 1, 2)
             self._game_win.addstr(title[i])
         self._game_win.attroff(cs.color_pair(YELLOW_DIM))
 
@@ -244,7 +253,7 @@ class GameWindow:
         text2 = "(PRESS SPACE TO CONTINUE)"
         self._game_win.attron(cs.color_pair(RED))
         for i in range(len(dead_screen)):
-            self._game_win.move(i+1, 2)
+            self._game_win.move(i + 1, 2)
             self._game_win.addstr(dead_screen[i])
         self._game_win.move(len(dead_screen) + 2, (self._cols - len(text1)) // 2)
         self._game_win.addstr(text1)
@@ -257,7 +266,7 @@ class GameWindow:
         text2 = "(PRESS SPACE TO CONTINUE)"
         self._game_win.attron(cs.color_pair(YELLOW))
         for i in range(len(title)):
-            self._game_win.move(i+1, 2)
+            self._game_win.move(i + 1, 2)
             self._game_win.addstr(title[i])
         self._game_win.move(len(title) + 2, (self._cols - len(text1)) // 2)
         self._game_win.addstr(text1)
@@ -279,7 +288,7 @@ class GameWindow:
     def _draw_level(self):
         for y in range(13):
             for x in range(26):
-                self._level_win.move(y+1, x+1)
+                self._level_win.move(y + 1, x + 1)
                 # 0-empty space, 1-wall, 2-exit, 3-spikes, 99 - start pos
                 # 4-blue power up, 5-blue wall, 6-orange power up, 7-orange wall, 8-magenta power up, 9-magenta wall
                 match self._level[y][x]:
@@ -307,7 +316,7 @@ class GameWindow:
     def redraw_level(self, bluepu, orangepu, magentapu):
         for y in range(13):
             for x in range(26):
-                self._level_win.move(y+1, x+1)
+                self._level_win.move(y + 1, x + 1)
                 # 0-empty space, 1-wall, 2-exit, 3-spikes, 99 - start pos
                 # 4-blue power up, 5-blue wall, 6-orange power up, 7-orange wall, 8-magenta power up, 9-magenta wall
                 match self._level[y][x]:
@@ -326,4 +335,3 @@ class GameWindow:
         self._game_win.refresh()
         self._level_win.refresh()
         self._stats_win.refresh()
-

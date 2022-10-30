@@ -1,5 +1,5 @@
-from logic.audio import _sound_library
-from logic.audio import play_sound
+import logic.audio
+from logic.audio import play_sound, change_sound_on
 
 class StateMenu:
     def __init__(self, gui):
@@ -28,6 +28,8 @@ class StateMenu:
                 case " ":
                     play_sound("audio\\confirm.mp3")
                     return selected_el
+                case "m":
+                    change_sound_on()
                 case _:
                     continue
             selected_el %= 4
@@ -122,4 +124,4 @@ class StateMenu:
                     continue
             sel_level %= lnr
             self._gui.menu.sel_level_changed(levels, (sel_level - 1) % lnr, sel_level, (sel_level + 1) % lnr)
-        return sel_level
+        return -1

@@ -8,5 +8,5 @@ def main(stdscr):
     logic = Logic(gui)
     logic.loop()
 
-wrapper(main)
 
+wrapper(main)

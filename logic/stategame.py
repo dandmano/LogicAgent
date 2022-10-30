@@ -1,5 +1,4 @@
 import pygame
-from logic.audio import _sound_library
 from logic.audio import play_sound
 
 
@@ -8,8 +7,8 @@ class StateGame:
         self._player_skin = skin
         self._player_y = None
         self._player_x = None
-        self._lives = 3 - difficulty
         self._level_map = level.level
+        self._level_name = level.name
         self._gui = gui
         self._game_gui = self._gui.new_game(self._level_map)
         self._player_moving = False
@@ -150,7 +149,7 @@ class StateGame:
         self._game_gui.redraw_level(self._bluepu, self._orangepu, self._magentapu)
 
     def _update_stats(self, game_time):
-        self._game_gui.update_stats(game_time, self._bluepu, self._orangepu, self._magentapu, self._lives)
+        self._game_gui.update_stats(game_time, self._bluepu, self._orangepu, self._magentapu, self._level_name)
         self._game_gui.refresh()
 
     def _set_player_moving_false(self):

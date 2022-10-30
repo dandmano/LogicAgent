@@ -30,8 +30,11 @@ class Logic:
                     new_state = state_menu.loop_menu()
                 case 0:  # Play
                     self._selected_level = state_menu.loop_level(self._levels)
-                    state_game = StateGame(self._gui, self._difficulty, self._levels[self._selected_level], self._player_skin)
-                    state_game.loop()
+                    if self._selected_level == -1:
+                        self._selected_level = 0
+                    else:
+                        state_game = StateGame(self._gui, self._difficulty, self._levels[self._selected_level], self._player_skin)
+                        state_game.loop()
                 case 1:  # Difficulty
                     self._difficulty = state_menu.loop_difficulty(self._difficulty)
                 case 2:  # Player skin

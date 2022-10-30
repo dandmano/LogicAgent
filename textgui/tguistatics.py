@@ -22,11 +22,13 @@ PLAYER = '℗'
 WALL = '█'
 STAR = '✦'
 SPIKES = '✶'
-BLANK = '⠀'
+BLANK = ' '
+BLANKV1 = '⠀'
 RIGHT_ARROW = '→'
 LEFT_ARROW = '←'
 DOWN_ARROW = '↓'
 UP_ARROW = '↑'
+
 
 menu_elements = ["PLAY", "DIFFICULTY", "CHANGE PLAYER SKIN", "EXIT"]
 difficulty_elements = ["CURRENT = ", "EASY", "MEDIUM", "HARD", "RETURN"]
