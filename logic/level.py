@@ -1,3 +1,4 @@
+#  Kazdy level sklada sie z nazwy, mapy, oraz czasow trudnosci
 class Level:  # y-13 x-26
     def __init__(self, name, level, difficulty_time):
         self.name = name
@@ -7,6 +8,8 @@ class Level:  # y-13 x-26
 
 #  1-wall 2-exit, 3-spike, 4-blue power up, 5-blue wall, 6-orange powerup, 7-oragnewall,
 #  8-magenta powerup, 9-magenta wall, 99-spawn
+
+# Funkcja tworzace obiekty leveli do gry i zwracajaca ich tablice
 def getlevels():
 
     levels = []
@@ -40,7 +43,7 @@ def getlevels():
                  [1, 5, 5, 0, 0, 3, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
                  [1, 5, 5, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
                  [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-    difficulty_time2 = [600, 20, 10]
+    difficulty_time2 = [60, 20, 10]
     level2 = Level("Level 2", levelmap2, difficulty_time2)
     levels.append(level2)
 

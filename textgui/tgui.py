@@ -3,7 +3,7 @@ import curses as cs
 from textgui.windows import MenuWindow, GameWindow
 from textgui.tguistatics import *
 
-
+#  Glowna klasa interfejsu graficznego. Inicjalizuje interfejs (curses), jego okna i podokna oraz kolory
 class TGui:
 
     def __init__(self, stdscr):

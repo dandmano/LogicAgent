@@ -7,9 +7,10 @@ from logic.stategame import StateGame
 TER_LINES = 22
 TER_COLS = 58
 
-
+#  Glowna klasa programu, odpowiada za przejscie pomiedzy konkretnymi menu oraz wlaczeniem gry z wybranym levelem
 class Logic:
 
+    #  zmienne podstawowych ustawien gry
     _difficulty = 1  # 0 - easy 1 - normal 2 - hard
     _player_skin = 0  # 0 - default
     _selected_level = 0
@@ -20,6 +21,7 @@ class Logic:
         self._load_levels()
         self._gui = gui
 
+    #  Glowna petla gry, przechodzi pomiedzy stanami menu/ustawien/gry
     def loop(self):
         pygame.init()
         state_menu = StateMenu(self._gui)
@@ -43,5 +45,6 @@ class Logic:
                     return
             self._state = new_state
 
+    #  funkcja dodajaca levele do gry
     def _load_levels(self):
         self._levels = getlevels()

@@ -4,7 +4,7 @@ from logic.audio import get_sound_on
 
 from textgui.tguistatics import *
 
-
+#  Klasa intrfejsu tekstowego obsugujaca rysowanie w oknie menu
 class MenuWindow:
 
     def __init__(self, win_menu, lines, cols):
@@ -14,6 +14,7 @@ class MenuWindow:
         self.print_main_menu()
         self._selected_el = 0
 
+    #  Metoda wyswietlajaca menu glowne
     def print_main_menu(self):
         self._selected_el = 0
         self._win_menu.clear()
@@ -21,6 +22,7 @@ class MenuWindow:
         self._print_elements(menu_elements)
         self.refresh()
 
+    #  Metoda wyswietlajaca menu wyboru poziomu trudnosci
     def print_difficulty_menu(self):
         self._selected_el = 1
         self._win_menu.clear()
@@ -28,6 +30,7 @@ class MenuWindow:
         self._print_elements(difficulty_elements)
         self.refresh()
 
+    #  Metoda wyswietlajaca menu wyboru skina
     def print_skin_menu(self):
         self._selected_el = 1
         self._win_menu.clear()
@@ -35,12 +38,14 @@ class MenuWindow:
         self._print_skins()
         self.refresh()
 
+    #  Metoda wyswietlajaca menu wyboru levela
     def print_level_menu(self):
         self._win_menu.clear()
         self._print_statics()
         self._print_levels()
         self.refresh()
 
+    #  Metoda obsugujaca zmiane zaznaczonego elementu w menu glownym
     def sel_el_changed_menu(self, new_sel):
         self._win_menu.move((16 + self._selected_el), self.center_x(TER_COLS, menu_elements[self._selected_el]) - 2)
         self._win_menu.addstr(" ")
@@ -49,6 +54,7 @@ class MenuWindow:
         self._selected_el = new_sel
         self._print_sound_helper()
 
+    #  Metoda obsugujaca zmiane zaznaczonego elementu w wyborze poziomu trudnosci
     def sel_el_changed_difficulty(self, new_sel):
         new_sel += 1
         self._win_menu.move((16 + self._selected_el),
@@ -58,6 +64,7 @@ class MenuWindow:
         self._win_menu.addstr(RIGHT_ARROW, cs.color_pair(YELLOW))
         self._selected_el = new_sel
 
+    #  Metoda obsugujaca zmiane zaznaczonego elementu w wyborze skina
     def sel_skin_changed_skin(self, p, c, n):  # previous, current, next
         recy = len(title) + 3
         recx = 22
@@ -67,6 +74,7 @@ class MenuWindow:
         self._win_menu.attroff(cs.color_pair(YELLOW))
         self.refresh()
 
+    #  Metoda obsugujaca zmiane zaznaczonego elementu w wyborze levela
     def sel_level_changed(self, levels, p, c, n):
         self._win_menu.attron(cs.color_pair(YELLOW))
         self._win_menu.move(len(title) + 3, 1)
@@ -84,6 +92,7 @@ class MenuWindow:
         self._win_menu.attroff(cs.color_pair(YELLOW))
         self.refresh()
 
+    #  Metoda obsugujaca zmiane wybranego poziomu trudnosci
     def current_difficulty_change(self, new_dif):
         new_dif += 1
         self._win_menu.move(16, 1)
@@ -92,15 +101,18 @@ class MenuWindow:
         self._win_menu.addstr(difficulty_elements[0] + difficulty_elements[new_dif], cs.color_pair(YELLOW))
         self.refresh()
 
+    #  Metoda wypisujaca elmenty statyczne okna takie jak tytyul oraz obramowanie
     def _print_statics(self):
         self._print_box()
         self._print_title()
 
+    #  Metoda rysujaca obramowanie wokol okna
     def _print_box(self):
         self._win_menu.attron(cs.color_pair(YELLOW))
         self._win_menu.border()
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda rysujaca tytul gry
     def _print_title(self):
         self._win_menu.attron(cs.color_pair(YELLOW))
         for i in range(len(title)):
@@ -108,6 +120,7 @@ class MenuWindow:
             self._win_menu.addstr(title[i])
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda wypisujaca elementy menu glownego lub poziomu trudnosci
     def _print_elements(self, elements):
         self._win_menu.attron(cs.color_pair(YELLOW))
         for i in range(len(elements)):
@@ -115,6 +128,7 @@ class MenuWindow:
             self._win_menu.addstr(elements[i])
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda rysujaca menu wyboru skina
     def _print_skins(self):
         text1 = "SKIN:"
         text2 = "(PRESS SPACE TO ACCEPT)"
@@ -126,6 +140,7 @@ class MenuWindow:
         self._win_menu.addstr(text2)
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda rysujaca elementy menu wyboru levela
     def _print_levels(self):
         text1 = "Choose level:"
         text2 = "(PRESS SPACE TO ACCEPT)"
@@ -136,6 +151,7 @@ class MenuWindow:
         self._win_menu.addstr(text2)
         self._win_menu.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda rysujaca tekst informujacy o stanie dzwieku (wlaczony/wylaczony)
     def _print_sound_helper(self):
         self._win_menu.move(self._lines - 2, 1)
         self._win_menu.addstr(empty_line)
@@ -153,6 +169,7 @@ class MenuWindow:
         self._win_menu.refresh()
 
 
+# Klasa interfesju tekstowego obslugujaca wyswietlanie i rysowanie obrazu gry, statystyk oraz endgame screena
 class GameWindow:
     level_y = 14
     level_x = 27
@@ -166,6 +183,7 @@ class GameWindow:
         self._level = level
         self._draw()
 
+    #  Metoda rysujaca rysujaca gracza na nowej pozycji i przywracajaca stary element mapy na poprzedniej pozycji gracza
     def draw_player(self, skin, tmpx, tmpy, x, y, mapelement=0, bluepu=False, orangepu=False, magentapu=False):
         self._level_win.move(tmpy + 1, tmpx + 1)
         match mapelement:
@@ -192,6 +210,7 @@ class GameWindow:
         self._level_win.addstr(skins[skin], cs.color_pair(YELLOW))
         self.refresh()
 
+    #  Metoda przerysowujaca statystki gry (czas, power-upy)
     def update_stats(self, game_time, bluepu, orangepu, magentapu, level_name):
         self._stats_win.attron(cs.color_pair(YELLOW))
 
@@ -227,12 +246,14 @@ class GameWindow:
 
         self._stats_win.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda rysujaca okno gry
     def _draw(self):
         self._draw_title()
         self._draw_level()
         self._draw_borders()
         self.refresh()
 
+    #  Metoda rysujaca przyciemniony tytul
     def _draw_title(self):
         self._game_win.attron(cs.color_pair(YELLOW_DIM))
         for i in range(len(title)):
@@ -240,6 +261,7 @@ class GameWindow:
             self._game_win.addstr(title[i])
         self._game_win.attroff(cs.color_pair(YELLOW_DIM))
 
+    #  Metoda wybierjaca wariant ekranu koncowego
     def endgame(self, type):
         self._game_win.clear()
         if type == 1:
@@ -248,6 +270,7 @@ class GameWindow:
             self._draw_endgame_win()
         self.refresh()
 
+    #  Metoda rysujaca ekran koncowy - przegrana
     def _draw_endgame_lost(self):
         text1 = "YOU LOST"
         text2 = "(PRESS SPACE TO CONTINUE)"
@@ -261,6 +284,7 @@ class GameWindow:
         self._game_win.addstr(text2)
         self._game_win.attroff(cs.color_pair(RED))
 
+    #  Metoda rysujaca ekran koncowy - zwyciestwo
     def _draw_endgame_win(self):
         text1 = "YOU WON! :)"
         text2 = "(PRESS SPACE TO CONTINUE)"
@@ -274,6 +298,8 @@ class GameWindow:
         self._game_win.addstr(text2)
         self._game_win.attroff(cs.color_pair(YELLOW))
 
+
+    #  Metoda rysujaca obramowania - obramowanie gry, obramowanie statystyk i obramowanie okna
     def _draw_borders(self):
         self._game_win.attron(cs.color_pair(YELLOW))
         self._level_win.attron(cs.color_pair(YELLOW))
@@ -285,6 +311,7 @@ class GameWindow:
         self._level_win.attroff(cs.color_pair(YELLOW))
         self._stats_win.attroff(cs.color_pair(YELLOW))
 
+    #  Metoda rysujaca level gry (mape)
     def _draw_level(self):
         for y in range(13):
             for x in range(26):
@@ -313,6 +340,7 @@ class GameWindow:
                     case 9:
                         self._level_win.addstr(WALL, cs.color_pair(MAGENTA))
 
+    #  Metoda przerysowujaca elementy mapy zmieniajace sie w trakcie gry (kolorowe sciany, power-upy)
     def redraw_level(self, bluepu, orangepu, magentapu):
         for y in range(13):
             for x in range(26):
@@ -329,6 +357,7 @@ class GameWindow:
                     case 9:
                         if magentapu:
                             self._level_win.addstr(WALL, cs.color_pair(MAGENTA_DIM))
+
 
     def refresh(self):
         self._game_win.touchwin()

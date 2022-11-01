@@ -1,3 +1,5 @@
+#  Plik z elementami statycznymi programu (znaki, kolory, elementy menu, tytul)
+
 TER_LINES = 22
 TER_COLS = 58
 

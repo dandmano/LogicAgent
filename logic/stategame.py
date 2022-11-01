@@ -1,7 +1,7 @@
 import pygame
 from logic.audio import play_sound
 
-
+#  klasa stanu gry, przypisuje podstawowe ustawienia, wczytuje inputy i prowadzi gre
 class StateGame:
     def __init__(self, gui, difficulty, level, skin):
         self._player_skin = skin
@@ -20,6 +20,8 @@ class StateGame:
         self._magentapu = False
         self._current_direction = None
 
+    #  Petla stanu gry, konczy sie w wypadku przegranej lub wygranej gracza. Odpowiada za wczytywanie inputow i
+    #  przekazywanie informacji co wyswietlac dla gui.
     def loop(self):
         clock_fps = pygame.time.Clock()
         game_time = 0
@@ -62,6 +64,7 @@ class StateGame:
         if self._endgame != 0:
             self._endthegame()
 
+    #  Metoda wywolywana w przypadku zakonczenia gry, w zaleznosci od konca, organizuje screen zwyciestwa lub przegranej
     def _endthegame(self):
         self._game_gui.endgame(self._endgame)
         if self._endgame == 1:
@@ -75,6 +78,7 @@ class StateGame:
             except Exception:
                 key = None
 
+    #  Metoda przesuwajaca gracza w ustalonym kierunku
     def _player_move(self, direction):
         match direction:
             case "UP":
@@ -90,6 +94,8 @@ class StateGame:
             case _:
                 raise Exception("Player move direction exception")
 
+    #  Metoda przemieszczajaca gracza, sprawdzajaca kolizje i inne eventy bedace wynikiem ruchu. Zezwala lub nie zezwala
+    #  na przemieszczenie
     def _player_move_direction(self, x, y):
         # 0-empty space, 1-wall, 2-exit, 3-spikes, 99 - start pos
         # 4-blue power up, 5-blue wall, 6-orange power up, 7-orange wall, 8-magenta power up, 9-magenta wall
@@ -145,17 +151,21 @@ class StateGame:
             case _:
                 raise Exception("Match error player move")
 
+    #  Metoda wywolujaca przerysowanie planszy gry w wyniku zebrania power-upu
     def _update_level(self):
         self._game_gui.redraw_level(self._bluepu, self._orangepu, self._magentapu)
 
+    #  Metoda wywolujaca zaaktualizowanie statystyk przez gui (czas, power-upy itd.)
     def _update_stats(self, game_time):
         self._game_gui.update_stats(game_time, self._bluepu, self._orangepu, self._magentapu, self._level_name)
         self._game_gui.refresh()
 
+    #  Metoda zatrzymujaca ruch gracza (napotkanie sciany)
     def _set_player_moving_false(self):
         self._player_moving = False
         self._current_direction = None
 
+    #  Metoda wysylajace informacje o nowej i starej pozycji gracza do gui w celu narysowania nowej i nadpisania starej
     def _draw_player(self, x, y):
         self._player_moving = True
         tmp = self._level_map[self._player_y][self._player_x]
@@ -166,11 +176,13 @@ class StateGame:
         self._player_y = y
         self._player_x = x
 
+    #  Metoda sprawdzajaca czy gracz bedzie kolidowal z konkretna sciana kolorowa
     def _check_if_player_on_pu_wall(self, map_element):
         if map_element == 5 or map_element == 7 or map_element == 9:
             return True
         return False
 
+    #  Metoda zwracajaca miejsce spawnu w levelu
     def _find_player_spawn(self):
         for y in range(len(self._level_map)):
             for x in range(len(self._level_map[y])):
