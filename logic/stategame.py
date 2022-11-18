@@ -1,5 +1,6 @@
 import pygame
-from logic.audio import play_sound
+from logic.audiologic import play_sound
+
 
 #  klasa stanu gry, przypisuje podstawowe ustawienia, wczytuje inputy i prowadzi gre
 class StateGame:
@@ -51,6 +52,8 @@ class StateGame:
                         self._current_direction = "RIGHT"
                     case "q":
                         return
+                    case "quit":
+                        quit(0)
                     case None:
                         pass
             self._player_move(self._current_direction)

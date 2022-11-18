@@ -1,4 +1,5 @@
 import curses as cs
+from pygame import init
 
 from textgui.windows import MenuWindow, GameWindow
 from textgui.tguistatics import *
@@ -15,6 +16,7 @@ class TGui:
         cs.resize_term(TER_LINES, TER_COLS)
         stdscr.refresh()
         self._init_menu()
+        init()
 
     @property
     def menu(self):
