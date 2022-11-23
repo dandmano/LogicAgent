@@ -1,19 +1,25 @@
+import time
+
 from logic.audiologic import play_sound, change_sound_on
+from pygame.time import Clock
 
 
 #  Klasa stanu menu, ktora obsluguje glowne menu, opcje wyboru skina, levelu, poziomu trudnosci oraz wyciszanie gry
 class StateMenu:
     def __init__(self, gui):
         self._gui = gui
+        self._clock_fps = Clock()
 
     #  Petla obslugujaca menu (inputy, wybory)
     def loop_menu(self):
         selected_el = 0
-        # self._gui.menu.print_main_menu()
-        # self._gui.menu.sel_el_changed_menu(selected_el)
-        # self._gui.menu.refresh()
+        self._gui.menu.print_main_menu()
+        self._gui.menu.sel_el_changed_menu(selected_el)
+        self._gui.menu.refresh()
         key = None
         while key != "q":
+            self._clock_fps.tick(30)
+            self._gui.menu.tick()
             try:
                 key = self._gui.getkey()
             except Exception:
@@ -36,8 +42,8 @@ class StateMenu:
                 case _:
                     continue
             selected_el %= 4
-            # self._gui.menu.sel_el_changed_menu(selected_el)
-            # self._gui.menu.refresh()
+            self._gui.menu.sel_el_changed_menu(selected_el)
+            self._gui.menu.refresh()
         return 3  # quit
 
     # Petla obsuguljaca wybor poziomu trudnosci
@@ -49,6 +55,8 @@ class StateMenu:
         self._gui.menu.refresh()
         key = None
         while key != "q":
+            self._clock_fps.tick(30)
+            self._gui.menu.tick()
             try:
                 key = self._gui.getkey()
             except Exception:
@@ -62,17 +70,13 @@ class StateMenu:
                     selected_el += 1
                     play_sound("audio\\beep.mp3")
                 case " ":
-                    if selected_el == 3:
-                        play_sound("audio\\confirm.mp3")
-                        return difficulty
                     play_sound("audio\\confirm.mp3")
-                    difficulty = selected_el
-                    self._gui.menu.current_difficulty_change(difficulty)
+                    return selected_el
                 case "quit":
                     quit(0)
                 case _:
                     continue
-            selected_el %= 4
+            selected_el %= 3
             self._gui.menu.sel_el_changed_difficulty(selected_el)
             self._gui.menu.refresh()
         return difficulty
@@ -86,6 +90,8 @@ class StateMenu:
         self._gui.menu.refresh()
         key = None
         while key != 'q':
+            self._clock_fps.tick(30)
+            self._gui.menu.tick()
             try:
                 key = self._gui.getkey()
             except Exception:
@@ -117,6 +123,8 @@ class StateMenu:
         self._gui.menu.sel_level_changed(levels, (sel_level - 1) % lnr, sel_level, (sel_level + 1) % lnr)
         key = None
         while key != 'q':
+            self._clock_fps.tick(30)
+            self._gui.menu.tick()
             try:
                 key = self._gui.getkey()
             except Exception:

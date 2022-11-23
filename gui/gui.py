@@ -1,4 +1,9 @@
 import pygame
+from gui.views import *
+
+
+S_WIDTH = 800
+S_HEIGHT = 600
 
 
 #  Glowna klasa interfejsu graficznego. Inicjalizuje interfejs (curses), jego okna i podokna oraz kolory
@@ -6,30 +11,27 @@ class Gui:
 
     def __init__(self):
         pygame.init()
-        self._screen = pygame.display.set_mode((800, 600))
+        self._screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
         pygame.display.set_caption("Logic Agent")
-        self._font = pygame.font.Font("assets\\VIDEOPHREAK.ttf", 14)
+        self._font = pygame.font.Font("assets\\Square.ttf", 34)
         pygame.display.set_icon(pygame.image.load("assets\\icon.png"))
+        self._menu = Menu(self._screen, self._font, S_WIDTH, S_HEIGHT)
+        self._game = None
 
-
-
+    @property
     def menu(self):
-        return self._menu_gui
+        return self._menu
 
     def game(self):
-        return self._game_gui
-
-
-    def _init_menu(self):
-        self._menu_win = None
-        self._menu_gui = None
+        return self._game
 
     def _init_game_map(self, level):
-        self._game_gui = None
+        # self._game = Game(self._screen, S_WIDTH, S_HEIGHT, level)
+        pass
 
     def new_game(self, level):
         self._init_game_map(level)
-        return self._game_gui
+        return self.game()
 
     def getkey(self):
         for event in pygame.event.get():

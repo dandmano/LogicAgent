@@ -1,5 +1,5 @@
-import os
-import pygame
+from os import sep
+from pygame.mixer import Sound
 
 _sound_library = {}
 _sound_on = True
@@ -22,7 +22,7 @@ def play_sound(path):
     global _sound_library
     sound = _sound_library.get(path)
     if sound is None:
-        canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
-        sound = pygame.mixer.Sound(canonicalized_path)
+        canonicalized_path = path.replace('/', sep).replace('\\', sep)
+        sound = Sound(canonicalized_path)
         _sound_library[path] = sound
     sound.play()

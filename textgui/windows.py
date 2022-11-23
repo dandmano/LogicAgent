@@ -168,6 +168,9 @@ class MenuWindow:
     def refresh(self):
         self._win_menu.refresh()
 
+    def tick(self):
+        pass
+
 
 # Klasa interfesju tekstowego obslugujaca wyswietlanie i rysowanie obrazu gry, statystyk oraz endgame screena
 class GameWindow:

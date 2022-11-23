@@ -1,24 +1,21 @@
 #  Plik z elementami statycznymi programu (znaki, kolory, elementy menu, tytul)
-
-TER_LINES = 22
-TER_COLS = 58
-
-WHITE = 0
-BLACK = 3
-BLUE = 22
-BLUE_DIM = 18
-GREEN = 47
-PURPLE = 58
-RED = 197
-YELLOW = 227
-YELLOW_DIM = 7
-ORANGE = 203
-ORANGE_DIM = 131
-MAGENTA = 202
-MAGENTA_DIM = 54
-LIME = 155
-CYAN = 52
-LIGHT_BLUE = 28
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+BLUE_DIM = (0, 0, 155)
+GREEN = (0, 255, 0)
+PURPLE = (125, 0, 255)
+RED = (255, 0, 0)
+YELLOW = (255, 220, 0)
+YELLOW_DIM = (155, 120, 0)
+YELLOW_SUPER_DIM = (75, 40, 0)
+ORANGE = (255, 125, 0)
+ORANGE_DIM = (155, 75, 0)
+MAGENTA = (255, 0, 255)
+MAGENTA_DIM = (155, 0, 155)
+LIME = (125, 255, 0)
+CYAN = (0, 255, 255)
+LIGHT_BLUE = (0, 155, 255)
 
 PLAYER = '℗'
 WALL = '█'
@@ -26,14 +23,17 @@ STAR = '✦'
 SPIKES = '✶'
 BLANK = ' '
 BLANKV1 = '⠀'
-RIGHT_ARROW = '→'
-LEFT_ARROW = '←'
-DOWN_ARROW = '↓'
-UP_ARROW = '↑'
+ARROW = '->'
 
+TITLE_SIZE = (int(720*1), int(400*1))
+
+WIDTH_CENTER = 400
+HEIGHT_CENTER = 300
 
 menu_elements = ["PLAY", "DIFFICULTY", "CHANGE PLAYER SKIN", "EXIT"]
-difficulty_elements = ["CURRENT = ", "EASY", "MEDIUM", "HARD", "RETURN"]
+menu_elements_width = [79, 171, 323, 68]
+difficulty_elements = ["EASY", "MEDIUM", "HARD"]
+difficulty_elements_width = [79, 112, 80]
 skins = ['℗', '@', '₳', '◊', '╪', '¶', '§']
 
 empty_line = "                                                        "  # 56 x space (58-2)

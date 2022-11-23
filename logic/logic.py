@@ -11,7 +11,7 @@ TER_COLS = 58
 class Logic:
 
     #  zmienne podstawowych ustawien gry
-    _difficulty = 1  # 0 - easy 1 - normal 2 - hard
+    _difficulty = 1  # 0 - easy 1 - medium 2 - hard
     _player_skin = 0  # 0 - default
     _selected_level = 0
 
