@@ -34,7 +34,7 @@ UP_ARROW = '↑'
 
 menu_elements = ["PLAY", "DIFFICULTY", "CHANGE PLAYER SKIN", "EXIT"]
 difficulty_elements = ["CURRENT = ", "EASY", "MEDIUM", "HARD"]
-skins = ['℗', '@', '₳', '◊', '╪', '¶', '§']
+skins = ['℗', '@', '₳', '◊', '╪', '¶', '§', '&']
 
 empty_line = "                                                        "  # 56 x space (58-2)
 

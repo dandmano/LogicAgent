@@ -2,7 +2,7 @@
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
-BLUE_DIM = (0, 0, 155)
+BLUE_DIM = (0, 0, 75)
 GREEN = (0, 255, 0)
 PURPLE = (125, 0, 255)
 RED = (255, 0, 0)
@@ -10,9 +10,9 @@ YELLOW = (255, 220, 0)
 YELLOW_DIM = (155, 120, 0)
 YELLOW_SUPER_DIM = (75, 40, 0)
 ORANGE = (255, 125, 0)
-ORANGE_DIM = (155, 75, 0)
+ORANGE_DIM = (75, 45, 0)
 MAGENTA = (255, 0, 255)
-MAGENTA_DIM = (155, 0, 155)
+MAGENTA_DIM = (75, 0, 75)
 LIME = (125, 255, 0)
 CYAN = (0, 255, 255)
 LIGHT_BLUE = (0, 155, 255)
@@ -24,6 +24,7 @@ SPIKES = '✶'
 BLANK = ' '
 BLANKV1 = '⠀'
 ARROW = '->'
+ARROW_LEFT = '<-'
 
 TITLE_SIZE = (int(720*1), int(400*1))
 

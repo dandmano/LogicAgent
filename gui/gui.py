@@ -26,8 +26,7 @@ class Gui:
         return self._game
 
     def _init_game_map(self, level):
-        # self._game = Game(self._screen, S_WIDTH, S_HEIGHT, level)
-        pass
+        self._game = Game(self._screen, self._font, S_WIDTH, S_HEIGHT, level)
 
     def new_game(self, level):
         self._init_game_map(level)

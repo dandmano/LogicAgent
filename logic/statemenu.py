@@ -84,7 +84,7 @@ class StateMenu:
     #  Petla obslugujaca menu wyboru skina
     def loop_skin(self, skin):
         sel_skin = skin
-        snumber = 7
+        snumber = 8
         self._gui.menu.print_skin_menu()
         self._gui.menu.sel_skin_changed_skin((sel_skin - 1) % snumber, sel_skin, (sel_skin + 1) % snumber)
         self._gui.menu.refresh()
