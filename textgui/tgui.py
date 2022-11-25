@@ -9,6 +9,7 @@ class TGui:
 
     def __init__(self, stdscr):
         self.stdscr = stdscr
+        self.is_graphic = False
         self.stdscr.nodelay(True)
         self.stdscr.encoding = "utf-8"
         self.__init_colors()

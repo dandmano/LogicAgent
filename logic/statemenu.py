@@ -39,6 +39,13 @@ class StateMenu:
                     change_sound_on()
                 case "quit":
                     quit(0)
+                case "mouse_clicked":
+                    selel = self._gui.menu.main_menu_mouse_press()
+                    if selel == -10:
+                        change_sound_on()
+                    if selel != -1:
+                        play_sound("audio\\confirm.mp3")
+                        return selel
                 case _:
                     continue
             selected_el %= 4
@@ -74,6 +81,11 @@ class StateMenu:
                     return selected_el
                 case "quit":
                     quit(0)
+                case "mouse_clicked":
+                    selel = self._gui.menu.difficulty_menu_mouse_press()
+                    if selel != -1:
+                        play_sound("audio\\confirm.mp3")
+                        return selel
                 case _:
                     continue
             selected_el %= 3
@@ -109,6 +121,14 @@ class StateMenu:
                     return sel_skin
                 case "quit":
                     quit(0)
+                case "mouse_clicked":
+                    selel = self._gui.menu.skins_menu_mouse_press()
+                    if selel != -5:
+                        if selel == 0:
+                            play_sound("audio\\confirm.mp3")
+                            return sel_skin
+                        play_sound("audio\\beep.mp3")
+                        sel_skin += selel
                 case None:
                     continue
             sel_skin %= snumber
@@ -142,6 +162,14 @@ class StateMenu:
                     return sel_level
                 case "quit":
                     quit(0)
+                case "mouse_clicked":
+                    selel = self._gui.menu.level_menu_mouse_press()
+                    if selel != -5:
+                        if selel == 0:
+                            play_sound("audio\\confirm.mp3")
+                            return sel_level
+                        play_sound("audio\\beep.mp3")
+                        sel_level += selel
                 case None:
                     continue
             sel_level %= lnr

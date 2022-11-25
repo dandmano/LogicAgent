@@ -1,5 +1,5 @@
 import pygame
-from logic.audiologic import play_sound
+from logic.audiologic import play_sound, play_music, stop_music
 
 
 #  klasa stanu gry, przypisuje podstawowe ustawienia, wczytuje inputy i prowadzi gre
@@ -52,6 +52,8 @@ class StateGame:
                         self._current_direction = "RIGHT"
                     case "q":
                         return
+                    case "mouse_clicked":
+                        self._current_direction = self._game_gui.direction_from_mouse(self._player_x, self._player_y)
                     case "quit":
                         quit(0)
                     case None:
@@ -70,12 +72,16 @@ class StateGame:
     #  Metoda wywolywana w przypadku zakonczenia gry, w zaleznosci od konca, organizuje screen zwyciestwa lub przegranej
     def _endthegame(self):
         self._game_gui.endgame(self._endgame)
+        stop_music()
         if self._endgame == 1:
             play_sound("audio\\dead.mp3")
         else:
             play_sound("audio\\win.mp3")
         key = None
-        while key != " " and key != "q":
+        clock = pygame.time.Clock()
+        while key != " " and key != "q" and key != "mouse_clicked":
+            clock.tick(30)
+            self._game_gui.tick(self._endgame)
             try:
                 key = self._gui.getkey()
             except Exception:
@@ -93,7 +99,7 @@ class StateGame:
             case "RIGHT":
                 self._player_move_direction(self._player_x + 1, self._player_y)
             case None:
-                return
+                self._game_gui.tick()
             case _:
                 raise Exception("Player move direction exception")
 

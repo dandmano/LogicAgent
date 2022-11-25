@@ -11,6 +11,7 @@ class Gui:
 
     def __init__(self):
         pygame.init()
+        self.is_graphic = True
         self._screen = pygame.display.set_mode((S_WIDTH, S_HEIGHT))
         pygame.display.set_caption("Logic Agent")
         self._font = pygame.font.Font("assets\\Square.ttf", 34)
@@ -39,6 +40,8 @@ class Gui:
                 return "quit"
             if event.type == pygame.KEYDOWN:
                 return self._keys(event.key)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                return "mouse_clicked"
         raise Exception("key not pressed")
 
     def _keys(self, key):
