@@ -1,6 +1,6 @@
 import curses as cs
 from curses.textpad import rectangle
-from logic.audio import get_sound_on
+from logic.audiologic import get_sound_on
 
 from textgui.tguistatics import *
 
@@ -168,6 +168,21 @@ class MenuWindow:
     def refresh(self):
         self._win_menu.refresh()
 
+    def main_menu_mouse_press(self):
+        pass
+
+    def difficulty_menu_mouse_press(self):
+        pass
+
+    def skins_menu_mouse_press(self):
+        pass
+
+    def level_menu_mouse_press(self):
+        pass
+
+    def tick(self):
+        pass
+
 
 # Klasa interfesju tekstowego obslugujaca wyswietlanie i rysowanie obrazu gry, statystyk oraz endgame screena
 class GameWindow:
@@ -245,6 +260,9 @@ class GameWindow:
         self._stats_win.addstr(str(game_time))
 
         self._stats_win.attroff(cs.color_pair(YELLOW))
+
+    def tick(self, end=0):
+        pass
 
     #  Metoda rysujaca okno gry
     def _draw(self):
@@ -358,6 +376,8 @@ class GameWindow:
                         if magentapu:
                             self._level_win.addstr(WALL, cs.color_pair(MAGENTA_DIM))
 
+    def direction_from_mouse(self, x, y):
+        pass
 
     def refresh(self):
         self._game_win.touchwin()

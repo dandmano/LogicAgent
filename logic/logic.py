@@ -4,14 +4,16 @@ from logic.level import *
 from logic.statemenu import StateMenu
 from logic.stategame import StateGame
 
+from logic.audiologic import load_backgroundmusic, play_music
+
+
 TER_LINES = 22
 TER_COLS = 58
-
 #  Glowna klasa programu, odpowiada za przejscie pomiedzy konkretnymi menu oraz wlaczeniem gry z wybranym levelem
 class Logic:
 
     #  zmienne podstawowych ustawien gry
-    _difficulty = 1  # 0 - easy 1 - normal 2 - hard
+    _difficulty = 1  # 0 - easy 1 - medium 2 - hard
     _player_skin = 0  # 0 - default
     _selected_level = 0
 
@@ -23,7 +25,7 @@ class Logic:
 
     #  Glowna petla gry, przechodzi pomiedzy stanami menu/ustawien/gry
     def loop(self):
-        pygame.init()
+        load_backgroundmusic()
         state_menu = StateMenu(self._gui)
         while self._state != 3:
             new_state = 10  # Menu
@@ -37,6 +39,7 @@ class Logic:
                     else:
                         state_game = StateGame(self._gui, self._difficulty, self._levels[self._selected_level], self._player_skin)
                         state_game.loop()
+                        play_music()
                 case 1:  # Difficulty
                     self._difficulty = state_menu.loop_difficulty(self._difficulty)
                 case 2:  # Player skin
