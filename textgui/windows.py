@@ -1,8 +1,9 @@
 import curses as cs
 from curses.textpad import rectangle
-from logic.audiologic import get_sound_on
 
+from logic.audiologic import get_sound_on
 from textgui.tguistatics import *
+
 
 #  Klasa intrfejsu tekstowego obsugujaca rysowanie w oknie menu
 class MenuWindow:

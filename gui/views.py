@@ -1,9 +1,10 @@
+from random import seed
+
 import pygame.draw
-from logic.audiologic import get_sound_on
+
 from gui.assetslogic import *
 from gui.guistatics import *
-from random import seed
-from random import random
+from logic.audiologic import get_sound_on
 
 
 #  Klasa intrfejsu tekstowego obsugujaca rysowanie w oknie menu

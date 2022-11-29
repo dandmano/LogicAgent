@@ -1,8 +1,10 @@
 import curses as cs
+
 from pygame import init
 
-from textgui.windows import MenuWindow, GameWindow
 from textgui.tguistatics import *
+from textgui.windows import MenuWindow, GameWindow
+
 
 #  Glowna klasa interfejsu graficznego. Inicjalizuje interfejs (curses), jego okna i podokna oraz kolory
 class TGui:

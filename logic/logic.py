@@ -1,11 +1,7 @@
-import pygame
-
-from logic.level import *
-from logic.statemenu import StateMenu
-from logic.stategame import StateGame
-
 from logic.audiologic import load_backgroundmusic, play_music
-
+from logic.level import *
+from logic.stategame import StateGame
+from logic.statemenu import StateMenu
 
 TER_LINES = 22
 TER_COLS = 58

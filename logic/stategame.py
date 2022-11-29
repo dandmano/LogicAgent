@@ -1,5 +1,6 @@
 import pygame
-from logic.audiologic import play_sound, play_music, stop_music
+
+from logic.audiologic import play_sound, stop_music
 
 
 #  klasa stanu gry, przypisuje podstawowe ustawienia, wczytuje inputy i prowadzi gre

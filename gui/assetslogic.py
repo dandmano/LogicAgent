@@ -1,4 +1,5 @@
 from os import sep
+
 from pygame.image import load
 
 _image_library = {}

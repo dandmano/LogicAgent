@@ -1,4 +1,5 @@
 from os import sep
+
 from pygame.mixer import Sound, music
 
 _sound_library = {}

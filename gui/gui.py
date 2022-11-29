@@ -1,6 +1,6 @@
 import pygame
-from gui.views import *
 
+from gui.views import *
 
 S_WIDTH = 800
 S_HEIGHT = 600

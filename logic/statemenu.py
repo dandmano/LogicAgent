@@ -1,7 +1,6 @@
-import time
+from pygame.time import Clock
 
 from logic.audiologic import play_sound, change_sound_on
-from pygame.time import Clock
 
 
 #  Klasa stanu menu, ktora obsluguje glowne menu, opcje wyboru skina, levelu, poziomu trudnosci oraz wyciszanie gry

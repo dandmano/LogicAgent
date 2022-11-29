@@ -1,7 +1,8 @@
-from textgui.tgui import TGui
-from logic.logic import Logic
-from gui.gui import Gui
 from curses import wrapper
+
+from gui.gui import Gui
+from logic.logic import Logic
+from textgui.tgui import TGui
 
 
 #  Funkcja glowna programu, tworzy obiekt gui i logiki oraz rozpoczyna petle
